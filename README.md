@@ -9,7 +9,6 @@ VigilantVision is engineered to revolutionize security surveillance, providing a
 
 ## Key Features
 
-- **CCTV Footage Analysis**: Automatically detects individuals wearing masks from CCTV footage for further analysis.
 - **GAN-based Face Generation**: Utilizes advanced Generative Adversarial Networks (GANs) to create realistic facial images from captured data.
 - **Live Face Recognition**: Integrates seamlessly with live camera feeds to identify and match generated faces in real-time.
 - **Alert System**: Notifies authorities promptly upon detecting a match, enabling swift response to potential security breaches.
