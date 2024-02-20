@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model 2 Functionality</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Model 2 Functionality</h1>
+      <nav class="mb-3">
+        <a href="home.html" class="btn btn-primary">Back to Index</a>
+      </nav>
+      <div id="cameraFeed">
+        <video id="videoElement" autoplay></video>
+      </div>
+      <div id="notification" class="mt-3"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // Function to start the camera
+      function startCamera() {
+        const videoElement = document.getElementById("videoElement");
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then(function (stream) {
+            videoElement.srcObject = stream;
+            console.log("Camera started successfully.");
+            setTimeout(stopCamera, 5000); // Set 5-second timer for showing notification
+          })
+          .catch(function (err) {
+            console.error("Error accessing the camera: ", err);
+          });
+      }
+
+      // Function to stop the camera
+      function stopCamera() {
+        console.log("Stopping camera and showing notification.");
+        const videoElement = document.getElementById("videoElement");
+        const stream = videoElement.srcObject;
+        const tracks = stream.getTracks();
+
+        tracks.forEach(function (track) {
+          track.stop();
+        });
+
+        videoElement.srcObject = null;
+        $("#notification").text("Match Found!").show();
+      }
+
+      // Start the camera when the page loads
+      window.onload = function () {
+        startCamera();
+      };
+    </script>
+  </body>
+</html>

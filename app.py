@@ -22,11 +22,19 @@ def initialRoute():
     return {"message": "Success", "data": "Hello world"}
 
 
+@app.route("/upload-img", methods=["POST"])
+def uploadImg():
+    if "file" not in request.files:
+        return "No file part", 400
+    file = request.files["file"]
+    return {"message": "Success", "data": "Image Uploaded successfully"}
+
+
 @app.route("/send-alert", methods=["GET"])
 def sendAlert():
     sendAlerts()
-    if value % 2 == 0:
-        return {"message": "Success", "data": f"Alert count is: {value}"}
+    # if value % 2 == 0:
+    return {"message": "Success", "data": f"Alert count is: {value}"}
 
 
 if __name__ == "__main__":
