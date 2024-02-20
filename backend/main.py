@@ -1,23 +1,5 @@
-# import cv2
-
-# cap = cv2.VideoCapture(1)
-# cap.set(3, 640)
-# cap.set(4, 480)
-
-# while True: 
-#     success, img = cap.read()
-#     if not success:
-#         print("Failed to read frame from the camera")
-#         break
-
-#     cv2.imshow("Face recognition", img)
-#     if cv2.waitKey(1) == ord('q'):  # Press 'q' to exit
-#         break
-
-# cap.release()
-# cv2.destroyAllWindows()
-
 import cv2
+import os 
 
 # Open the default camera (index 0)
 cap = cv2.VideoCapture(0)
@@ -28,6 +10,13 @@ if not cap.isOpened():
     exit()
 
 imgBackground = cv2.imread('Resources/background.png')
+
+# Importing the mode images into a list
+folderModePath = 'Resources/Modes'
+modePathList = os.listdir(folderModePath)
+imgModeList = []
+for path in modePathList:
+    imgModeList.append(cv2.imread(os.path.join(folderModePath, path)))
 
 # Loop to continuously read frames from the camera
 while True:
@@ -40,6 +29,7 @@ while True:
         break
     
     imgBackground[162:162 + 480, 55:55 + 640] = frame
+    imgBackground[44:44 + 633, 808:808 + 414] = imgModeList[3]
 
     # Display the captured frame
     cv2.imshow('Face Recognition', imgBackground)
