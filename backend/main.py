@@ -28,7 +28,7 @@ if not cap.isOpened():
     print("Error: Could not open camera.")
     exit()
 
-imgBackground = cv2.imread('Resources/background.png')
+imgBackground = cv2.imread('Resources/background.jpg')
 
 # Importing the mode images into a list
 folderModePath = 'Resources/Modes'
@@ -85,11 +85,8 @@ while True:
         for encodeFace, faceLoc in zip(encodeCurFrame, faceCurFrame):
             matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
             faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
-            # print("matches", matches)
-            # print("faceDis", faceDis)
 
             matchIndex = np.argmin(faceDis)
-            # print("Match Index", matchIndex)
 
             if matches[matchIndex]:
                 # print("Known Face Detected")
@@ -116,35 +113,15 @@ while True:
                 blob = bucket.get_blob(f'Images/{id}.jpg')
                 array = np.frombuffer(blob.download_as_string(), np.uint8)
                 imgPeople = cv2.imdecode(array, cv2.COLOR_BGRA2BGR)
-                # Update data of attendance
-                # datetimeObject = datetime.strptime(peopleInfo['last_appearance_time'],
-                #                                    "%Y-%m-%d %H:%M:%S")
-                # secondsElapsed = (datetime.now() - datetimeObject).total_seconds()
-                # print(secondsElapsed)
-                # if secondsElapsed > 30:
-                #     ref = db.reference(f'People/{id}')
-                    # peopleInfo['total_appearance'] += 1
-                    # ref.child('total_appearance').set(peopleInfo['total_appearance'])
-                    # ref.child('last_appearance_time').set(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                # else:
-                    # modeType = 3
-                    # counter = 0
-                    # imgBackground[44:44 + 633, 808:808 + 414] = imgModeList[modeType]
 
             if modeType != 3:
 
                 if 10 < counter < 20:
-                    modeType = 2
+                    modeType = 1
 
                 imgBackground[44:44 + 633, 808:808 + 414] = imgModeList[modeType]
 
                 if counter <= 10:
-                    # cv2.putText(imgBackground, str(peopleInfo['age']), (44, 44+633),
-                    #             cv2.FONT_HERSHEY_COMPLEX, 1, (100, 100, 100), 1)
-                    # cv2.putText(imgBackground, str(studentInfo['major']), (1006, 550),
-                    #             cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 1)
-                    # cv2.putText(imgBackground, str(id), (1006, 493),
-                    #             cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 1)
                     cv2.putText(imgBackground, str(peopleInfo['name']), (50, 50+633),
                                 cv2.FONT_HERSHEY_COMPLEX, 0.6, (100, 100, 100), 1)
                     cv2.putText(imgBackground, str(peopleInfo['gender']), (500, 50+633),
@@ -156,8 +133,6 @@ while True:
                     offset = (414 - w) // 2
                     cv2.putText(imgBackground, str(peopleInfo['name']), (808 + offset, 445),
                                 cv2.FONT_HERSHEY_COMPLEX, 1, (50, 50, 50), 1)
-
-                    # imgBackground[175:(175 + 1024), 909:(909 + 1024)] = imgPeople
 
                 counter += 1
 
