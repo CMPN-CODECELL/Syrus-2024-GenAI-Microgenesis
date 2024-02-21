@@ -9,6 +9,7 @@ from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import storage
 from datetime import datetime
+# from personInfo import personInfo
 
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
@@ -94,7 +95,7 @@ while True:
                 y1, x2, y2, x1 = faceLoc
                 y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
                 bbox = 15 + x1, 72 + y1, x2 - x1, y2 - y1
-                frame = cvzone.cornerRect(frame, bbox, rt=0)
+                # frame = cvzone.cornerRect(frame, bbox, rt=0)
                 id = peopleIds[matchIndex]
                 if counter == 0:
                     cvzone.putTextRect(imgBackground, "Loading", (275, 400))
@@ -108,7 +109,8 @@ while True:
             if counter == 1:
                 # Get the Data
                 peopleInfo = db.reference(f'People/{id}').get()
-                print(peopleInfo)
+                # print(peopleInfo)
+                # personInfo.append(peopleInfo)
                 # Get the Image from the storage
                 blob = bucket.get_blob(f'Images/{id}.jpg')
                 array = np.frombuffer(blob.download_as_string(), np.uint8)
@@ -138,7 +140,7 @@ while True:
 
                 if counter >= 20:
                     counter = 0
-                    modeType = 0
+                    modeType = 1
                     peopleInfo = []
                     imgPeople = []
                     imgBackground[44:44 + 633, 808:808 + 414] = imgModeList[modeType]
